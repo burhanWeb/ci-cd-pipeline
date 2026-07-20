@@ -24,10 +24,10 @@ jobs:
       # Build Docker image
 
       - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-app:latest .
+        run: docker build -t ${{ secrets.DOKCERHUB_USERNAME }}/nodejs-app:latest .
 
       - name: Push Docker Image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-app:latest
+        run: docker push ${{ secrets.DOKCERHUB_USERNAME }}/nodejs-app:latest
 
   deploy-ec2:
     needs: build-and-push
@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.EC2_USER}}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY}}
           script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-app:latest
+            docker pull ${{ secrets.DOKCERHUB_USERNAME }}/nodejs-app:latest
             docker stop nodejs-app || true
             docker rm nodejs-app || true
-            docker run -d --restart unless-stopped --name nodejs-app -p 3000:3000 ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-app:latest
+            docker run -d --restart unless-stopped --name nodejs-app -p 3000:3000 ${{ secrets.DOKCERHUB_USERNAME }}/nodejs-app:latest
